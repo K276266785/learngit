@@ -1,0 +1,132 @@
+“Git”->“Git Bash”
+$ git config --global user.name "ken li"
+$ git config --global user.email "276266785@qq.com"
+
+---------------------------------------------------
+--创建版本库
+$ mkdir Git
+cd Git
+$ mkdir learngit
+$ cd learngit
+$ pwd 
+--windows路径
+C:\Users\ken.li\Cit\learngit
+--把这个目录变成Git可以管理的仓库
+$ git init 
+
+--编写一个readme.txt文件 一定要放到learngit目录下
+Git is a version control system.
+Git is free software.
+
+--第一步，用命令git add告诉Git，把文件添加到仓库：
+$ git add readme.txt
+第二步，用命令git commit告诉Git，把文件提交到仓库：
+$ git commit -m "wrote a readme file"
+---------------------------------------------------
+
+---------------------------------------------------
+--修改readme.txt
+Git is a distributed version control system.
+Git is free software.
+--运行git status命令看看结果
+$ git status
+--查看差异
+$ git diff readme.txt 
+--提交修改
+$ git add readme.txt
+$ git commit -m "add distributed"
+---------------------------------------------------
+
+---------------------------------------------------
+--查看日志
+$ git log
+$ git log --pretty=oneline
+--回退到上一个版本
+$ git reset --hard HEAD^
+--查看文件内容
+$ cat readme.txt
+--恢复指定版本
+$ git reset --hard 0616c
+--查看历史记录
+$ git reflog
+--丢弃工作区的修改(让这个文件回到最近一次git commit或git add时的状态)
+$ git checkout -- readme.txt
+--git add到暂存区后,把暂存区的修改撤销掉（unstage），重新放回工作区
+$ git reset HEAD readme.txt
+--文件删除1(从工作区删除)--可手工直接删除
+$ rm test.txt
+--文件删除2(从版本库中删除)
+$ git rm test.txt
+$ git commit -m "remove2 test.txt"
+--删除恢复
+$ git checkout -- test.txt
+---------------------------------------------------
+
+---------------------------------------------------
+--远程仓库
+--创建SSH Key
+$ ssh-keygen -t rsa -C "276266785@qq.com"
+--上传
+$ git remote add origin git@github.com:K276266785/learngit.git
+--第一次推送
+$ git push -u origin master
+--以后多次推送
+$ git push origin master
+--用命令git clone克隆一个本地库
+$ git clone git@github.com:K276266785/Test01.git
+---------------------------------------------------
+
+---------------------------------------------------
+--分支管理
+--创建并切换分支
+$ git checkout -b dev
+--创建分支
+$ git branch dev
+--切换分支
+$ git checkout dev
+--查看当前分支
+$ git branch
+--切换回master分支
+$ git checkout master
+--把dev分支的工作成果合并到master分支上
+$ git merge dev
+--删除dev分支
+$ git branch -d dev
+--查看分支合并记录
+$ git log --graph --pretty=oneline --abbrev-commit
+--合并dev分支，请注意--no-ff参数，表示禁用Fast forward
+$ git merge --no-ff -m "merge with no-ff" dev
+--工作区暂存
+$ git stash
+--工作区恢复(恢复并删除stash)
+$ git stash pop
+--多次stash恢复
+$ git stash apply stash@{0}
+--手工删除暂存区
+$ git stash drop
+--强行删除未合并的分支
+$ git branch -D <name>
+---------------------------------------------------
+
+---------------------------------------------------
+--打标签
+$ git tag v1.0
+--查看标签
+$ git tag
+$ git log --pretty=oneline --abbrev-commit
+--后补打标签
+$ git tag v0.9 f52c633
+--查看标签内容
+$ git show v0.9
+--创建带有说明的标签，用-a指定标签名，-m指定说明文字
+$ git tag -a v0.1 -m "version 0.1 released" 1094adb
+--标签删除
+$ git tag -d v0.1
+--推送某个标签到远程
+$ git push origin v1.0
+--一次性推送全部尚未推送到远程的本地标签
+$ git push origin --tags
+--删除远程标签(先从本地删除,再删除远程)
+$ git tag -d v0.9
+$ git push origin :refs/tags/v0.9
+---------------------------------------------------
